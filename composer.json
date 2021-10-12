@@ -1,0 +1,62 @@
+{
+  "name": "workerman/webman",
+  "type": "project",
+  "keywords": [
+    "high performance",
+    "http service"
+  ],
+  "homepage": "http://www.workerman.net",
+  "license": "MIT",
+  "description": "High performance HTTP Service Framework.",
+  "authors": [
+    {
+      "name": "walkor",
+      "email": "walkor@workerman.net",
+      "homepage": "http://www.workerman.net",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "walkor@workerman.net",
+    "issues": "https://github.com/walkor/webman/issues",
+    "forum": "http://wenda.workerman.net/",
+    "wiki": "http://workerman.net/doc/webman",
+    "source": "https://github.com/walkor/webman"
+  },
+  "require": {
+    "php": ">=7.2",
+    "workerman/webman-framework": "^1.0",
+    "monolog/monolog": "^2.0",
+    "vlucas/phpdotenv": "^5.1.0",
+    "php-di/php-di": "^6.3",
+    "doctrine/annotations": "^1.11",
+    "robmorgan/phinx": "^0.12.5",
+    "topthink/think-template": "^2.0",
+    "topthink/think-orm": "^2.0",
+    "topthink/think-validate": "^1.0.2",
+    "illuminate/redis": "^8.2.0",
+    "symfony/cache": "^5.2"
+  },
+  "suggest": {
+    "ext-event": "For better performance. "
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "app/"
+    },
+    "files": [
+      "./support/helpers.php"
+    ]
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ]
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer/"
+    }
+  }
+}
