@@ -1,27 +1,24 @@
 {
-  "name": "workerman/webman",
+  "name": "webman-cms",
   "type": "project",
   "keywords": [
     "high performance",
-    "http service"
+    "CMS system"
   ],
-  "homepage": "http://www.workerman.net",
+  "homepage": "https://github.com/webman-cms",
   "license": "MIT",
-  "description": "High performance HTTP Service Framework.",
+  "description": "High performance CMS system.",
   "authors": [
     {
-      "name": "walkor",
-      "email": "walkor@workerman.net",
-      "homepage": "http://www.workerman.net",
+      "name": "weijer",
+      "email": "weiwei163@foxmail.com",
+      "homepage": "https://github.com/webman-cms",
       "role": "Developer"
     }
   ],
   "support": {
-    "email": "walkor@workerman.net",
-    "issues": "https://github.com/walkor/webman/issues",
-    "forum": "http://wenda.workerman.net/",
-    "wiki": "http://workerman.net/doc/webman",
-    "source": "https://github.com/walkor/webman"
+    "issues": "https://github.com/webman-cms/cms/issues",
+    "source": "https://github.com/webman-cms/cms"
   },
   "require": {
     "php": ">=7.2",
