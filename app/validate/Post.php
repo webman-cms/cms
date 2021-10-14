@@ -13,7 +13,7 @@ namespace app\validate;
 use think\Validate;
 
 // 文件名与控制器名称一致
-class Index extends Validate
+class Post extends Validate
 {
     //验证规则
     protected $rule = [];

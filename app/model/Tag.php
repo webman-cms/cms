@@ -3,7 +3,7 @@ namespace app\model;
 
 use support\Model;
 
-class Test extends Model
+class Tag extends Model
 {
     /**
      * 是否需要自动写入时间戳 如果设置为字符串 则表示时间字段的类型

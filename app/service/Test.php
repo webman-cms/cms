@@ -2,7 +2,7 @@
 
 namespace app\service;
 
-use app\model\Test as TestModel;
+use app\model\User as TestModel;
 
 class Test
 {
