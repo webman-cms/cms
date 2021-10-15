@@ -12,15 +12,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-use support\Request;
 use support\Response;
-use support\view\Raw;
-use support\bootstrap\Translation;
 use Webman\App;
 use Webman\Config;
 use Webman\Route;
-use Workerman\Protocols\Http\Session;
-use Webman\Exception\ClassNotFoundException;
 
 define('BASE_PATH', realpath(__DIR__ . '/../'));
 
@@ -141,7 +136,7 @@ function view($template, $vars = [], $app = null)
 }
 
 /**
- * @return Request
+ * @return \Webman\Http\Request|null
  */
 function request()
 {
@@ -225,31 +220,6 @@ if (!function_exists('env')) {
 
         return $value;
     }
-}
-
-/**
- * @param null|string $id
- * @param array $parameters
- * @param string|null $domain
- * @param string|null $locale
- * @return string
- */
-function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
-{
-    $res = Translation::trans($id, $parameters, $domain, $locale);
-    return $res === '' ? $id : $res;
-}
-
-/**
- * @param null|string $locale
- * @return string
- */
-function locale(string $locale = null)
-{
-    if (!$locale) {
-        return Translation::getLocale();
-    }
-    Translation::setLocale($locale);
 }
 
 /**

@@ -19,6 +19,5 @@ return [
     support\bootstrap\Cache::class,
     support\bootstrap\db\Heartbeat::class,
     support\bootstrap\db\Thinkphp::class,
-    support\bootstrap\Log::class,
-    support\bootstrap\Translation::class,
+    support\bootstrap\Log::class
 ];
