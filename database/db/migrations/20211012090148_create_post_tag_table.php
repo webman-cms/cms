@@ -10,12 +10,14 @@ final class CreatePostTagTable extends AbstractMigration
      */
     public function up()
     {
-        $item = $this->table('post_tag', ['id' => false, 'primary_key' => ['id'], 'engine' => 'InnoDB', 'collation' => 'utf8mb4_general_ci', 'comment' => '文章标签表']);
+        $table = $this->table('post_tag', ['id' => false, 'primary_key' => ['id'], 'engine' => 'InnoDB', 'collation' => 'utf8mb4_general_ci', 'comment' => '文章标签表']);
 
-        $item->addColumn('id', 'integer', ['identity' => true, 'signed' => false, 'limit' => 11, 'comment' => '主键ID'])
+        $table->addColumn('id', 'integer', ['identity' => true, 'signed' => false, 'limit' => 11, 'comment' => '主键ID'])
             ->addColumn('post_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '所属文章ID'])
-            ->addColumn('tag_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '所属标签ID'])
-            ->save();
+            ->addColumn('tag_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '所属标签ID']);
+
+        //执行创建
+        $table->create();
     }
 
     /**
