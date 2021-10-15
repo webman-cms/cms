@@ -21,7 +21,7 @@ final class CreateMediaTable extends AbstractMigration
             ->addColumn('type', 'char', ['default' => '', 'limit' => 36, 'comment' => '类型'])
             ->addColumn('param', 'json', ['null' => true, 'comment' => 'mediaData存储'])
             ->addColumn('created_by', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建者'])
-            ->addColumn('created', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间']);
+            ->addColumn('create_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间']);
 
         //执行创建
         $table->create();

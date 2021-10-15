@@ -19,7 +19,8 @@ final class CreatePostTable extends AbstractMigration
             ->addColumn('thumb_media_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '缩略图所属媒体ID'])
             ->addColumn('user_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '所属作者ID'])
             ->addColumn('nav_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '所属菜单ID'])
-            ->addColumn('created', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间']);
+            ->addColumn('create_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间'])
+            ->addColumn('update_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '更新时间']);
 
         //执行创建
         $table->create();
