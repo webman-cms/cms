@@ -14,7 +14,6 @@
 
 return [
     support\bootstrap\Container::class,
-    support\bootstrap\Session::class,
     support\bootstrap\Redis::class,
     support\bootstrap\Cache::class,
     support\bootstrap\db\Heartbeat::class,
