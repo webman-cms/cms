@@ -21,5 +21,5 @@ class Media extends Model
      * 更新时间字段 false表示关闭
      * @var false|string
      */
-    protected $updateTime = 'update_time';
+    protected $updateTime = false;
 }

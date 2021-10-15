@@ -1,4 +1,5 @@
 <?php
+
 namespace app\model;
 
 use support\Model;
@@ -21,5 +22,5 @@ class User extends Model
      * 更新时间字段 false表示关闭
      * @var false|string
      */
-    protected $updateTime = 'update_time';
+    protected $updateTime = 'last_visit_time';
 }
