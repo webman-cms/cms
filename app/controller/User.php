@@ -50,10 +50,17 @@ class User
     /**
      * 刷新令牌
      * @param Request $request
+     * @return Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
-    public function refreshToken(Request $request)
+    public function refreshToken(Request $request): Response
     {
-
+        $param = $request->all();
+        $clientIp = $request->getRealIp();
+        $res = $this->userService->refreshToken($param['refresh_token'], $clientIp);
+        return json(success_response('', $res));
     }
 
     /**
@@ -64,7 +71,7 @@ class User
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function getUserInfo(Request $request)
+    public function getUserInfo(Request $request): Response
     {
         $param = $request->all();
         $res = $this->userService->getUserInfo($param['user_id']);

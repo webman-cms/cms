@@ -57,25 +57,16 @@ class User
     }
 
     /**
-     * 属性token
-     * @param string $refreshToken
-     * @return array
-     */
-    public function refreshToken(string $refreshToken): array
-    {
-        return [];
-    }
-
-    /**
      * 验证token
-     * @param string $accessToken
+     * @param string $tokenString
+     * @param string $field
      * @param string $clientIp
      * @throws \exception
      */
-    public function verifyToken(string $accessToken, string $clientIp): void
+    public function verifyToken(string $tokenString, string $field, string $clientIp): void
     {
         try {
-            $token = $this->configuration->parser()->parse($accessToken);
+            $token = $this->configuration->parser()->parse($tokenString);
 
             $domain = new IssuedBy($this->jwtConfig['domain']);
             $this->configuration->setValidationConstraints($domain);
@@ -97,8 +88,13 @@ class User
             if ($token->claims()->get('ip') !== $clientIp) {
                 throw new \Exception('Client ip not equal.', ErrorCode::ClientIpNotEqual);
             }
+
+            // 验证token是否被删除
+            $tokenExist = UserModel::where($field, '=', md5($tokenString))->value('id');
+            if (empty($tokenExist)) {
+                throw new \Exception('Token record not found.', ErrorCode::TokenRecordNotFound);
+            }
         } catch (\Throwable $e) {
-            var_dump($e->getMessage());
             if ($e->getCode() === ErrorCode::ExpireToken) {
                 throw_http_exception($e->getMessage(), $e->getCode());
             } else {
@@ -119,12 +115,22 @@ class User
 
     /**
      * 修改用户信息（包含密码修改）
+     * @param int $userId
      * @param array $userData
      * @return array
      */
-    public function modifyUser(array $userData): array
+    public function modifyUser(int $userId, array $userData): array
     {
-        return [];
+        $user = new UserModel();
+        $user->id = $userId;
+
+        foreach ($userData as $key => $value) {
+            $user->$key = $value;
+        }
+
+        $user->exists(true)->save();
+
+        return $user->toArray();
     }
 
     /**
@@ -134,6 +140,7 @@ class User
      */
     public function deleteUser(int $userId): int
     {
+        //  user_id = 1 超级管理员账户不能删除
         return 0;
     }
 
@@ -197,6 +204,26 @@ class User
     private function generateLoginTokenByUserData($userData, $clientIp)
     {
 
+        // 生成token信息
+        $accessExpires = time() + $this->jwtConfig['expire'];
+        $refreshExpires = time() + $this->jwtConfig['refresh_expire'];
+        $accessToken = $this->generateToken($userData, $this->jwtConfig['expire'], $clientIp);
+        $refreshToken = $this->generateToken($userData, $this->jwtConfig['refresh_expire'], $clientIp);
+
+        // 更新当前用户token信息
+        $this->modifyUser($userData['id'], [
+            'access_token' => md5($accessToken),
+            'access_expires' => $accessExpires,
+            'refresh_token' => md5($refreshToken),
+            'refresh_expires' => $refreshExpires,
+        ]);
+
+        return [
+            'access_token' => $accessToken,
+            'access_token_expires' => $accessExpires,
+            'refresh_token' => $refreshToken,
+            'refresh_token_expires' => $refreshExpires,
+        ];
     }
 
     /**
@@ -214,20 +241,38 @@ class User
         // 验证用户信息是否存在
         $userData = $this->checkUserPassword($loginName, $password);
 
-        // 生成token信息
-        $accessExpires = time() + $this->jwtConfig['expire'];
-        $refreshExpires = time() + $this->jwtConfig['refresh_expire'];
-        $accessToken = $this->generateToken($userData, $this->jwtConfig['expire'], $clientIp);
-        $refreshToken = $this->generateToken($userData, $this->jwtConfig['refresh_expire'], $clientIp);
-
+        // 生成token
+        $token = $this->generateLoginTokenByUserData($userData, $clientIp);
         return [
             'user_data' => $userData,
-            'token' => [
-                'access_token' => $accessToken,
-                'access_token_expires' => $accessExpires,
-                'refresh_token' => $refreshToken,
-                'refresh_token_expires' => $refreshExpires,
-            ]
+            'token' => $token
+        ];
+    }
+
+    /**
+     * 属性token
+     * @param string $refreshToken
+     * @param string $clientIp
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function refreshToken(string $refreshToken, string $clientIp): array
+    {
+        // 验证 token 有效性
+        $this->verifyToken($refreshToken, 'refresh_token', $clientIp);
+
+        // 获取用户信息
+        $userData = UserModel::field('id,login_name,name,sex,phone,email')
+            ->where('refresh_token', '=', md5($refreshToken))
+            ->find();
+
+        // 生成token
+        $token = $this->generateLoginTokenByUserData($userData, $clientIp);
+        return [
+            'user_data' => $userData,
+            'token' => $token
         ];
     }
 }

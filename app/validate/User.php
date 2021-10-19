@@ -25,6 +25,12 @@ class User extends Validate
             ->append('password', 'require');
     }
 
+    // RefreshToken 验证场景定义
+    public function sceneRefreshToken()
+    {
+        return $this->append('refresh_token', 'require');
+    }
+
     // GetUserInfo 验证场景定义
     public function sceneGetUserInfo()
     {

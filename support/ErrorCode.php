@@ -14,4 +14,5 @@ class ErrorCode
     const ExpireToken = -20110005;
     const WrongToken = -20110006;
     const ClientIpNotEqual = -20110007;
+    const TokenRecordNotFound = -20110008;
 }

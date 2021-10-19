@@ -16,4 +16,5 @@ use Webman\Route;
 
 
 Route::post('/user/get_token', 'app\controller\User@getToken');
+Route::post('/user/refresh_token', 'app\controller\User@refreshToken');
 Route::post('/user/get_user_info', 'app\controller\User@getUserInfo')->middleware(\support\middleware\AuthCheck::class);

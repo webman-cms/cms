@@ -36,7 +36,7 @@ class AuthCheck implements MiddlewareInterface
 
         // 验证 token 有效性
         $user = new UserService();
-        $user->verifyToken($token, $request->getRealIp());
+        $user->verifyToken($token, 'access_token',$request->getRealIp());
 
         return $next($request);
     }
