@@ -23,6 +23,7 @@ final class CreateUserTable extends AbstractMigration
             ->addColumn('access_expires', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '验证令牌过期时间'])
             ->addColumn('refresh_token', 'char', ['default' => '', 'limit' => 40, 'comment' => '刷新令牌'])
             ->addColumn('refresh_expires', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '刷新令牌过期时间'])
+            ->addColumn('ip', 'char', ['default' => '', 'limit' => 32, 'comment' => 'IP地址'])
             ->addColumn('last_visit_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '最后访问时间'])
             ->addColumn('create_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间']);
 

@@ -15,9 +15,4 @@
 use Webman\Route;
 
 
-Route::any('/route-test', 'app\controller\Index@index');
-
-
-Route::any('/json', 'app\controller\Index@json');
-
-Route::any('/create', 'app\controller\Index@create');
+Route::post('/user/get_token', 'app\controller\User@getToken');

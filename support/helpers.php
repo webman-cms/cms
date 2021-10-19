@@ -259,3 +259,17 @@ function cpu_count() {
     $count = (int)$count > 0 ? (int)$count : 4;
     return $count;
 }
+
+if (!function_exists('success_response')) {
+    /**
+     * 成功返回数据
+     * @param string $message
+     * @param array $data
+     * @param int $status
+     * @return array
+     */
+    function success_response($message = '', $data = [], $status = 0)
+    {
+        return ["code" => $status, "msg" => $message, "data" => $data];
+    }
+}

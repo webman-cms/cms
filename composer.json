@@ -1,5 +1,5 @@
 {
-  "name": "webman-cms",
+  "name": "webman/cms",
   "type": "project",
   "keywords": [
     "high performance",
@@ -31,17 +31,22 @@
     "topthink/think-orm": "^2.0",
     "topthink/think-validate": "^1.0.2",
     "illuminate/redis": "^8.2.0",
-    "symfony/cache": "^5.2"
+    "symfony/cache": "^5.2",
+    "lcobucci/jwt": "^4.1",
+    "teamones/response-code-msg": ">=0.0.1"
   },
   "suggest": {
     "ext-event": "For better performance. "
   },
   "autoload": {
+    "files": [
+      "./support/helpers.php"
+    ],
     "psr-4": {
       "app\\": "app/"
     },
-    "files": [
-      "./support/helpers.php"
+    "classmap": [
+      "support"
     ]
   },
   "scripts": {

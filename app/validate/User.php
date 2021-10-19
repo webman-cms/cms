@@ -13,14 +13,15 @@ namespace app\validate;
 use think\Validate;
 
 // 文件名与控制器名称一致
-class Post extends Validate
+class User extends Validate
 {
     //验证规则
     protected $rule = [];
 
-    // ModelCreate 模型验证场景定义
-    public function sceneModelCreate()
+    // GetToken 验证场景定义
+    public function sceneGetToken()
     {
-        return $this->append('name', 'require');
+        return $this->append('login_name', 'require')
+            ->append('password', 'require');
     }
 }

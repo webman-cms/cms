@@ -29,6 +29,12 @@ if ($timezone = config('app.default_timezone')) {
     date_default_timezone_set($timezone);
 }
 
+// 生成错误码，仅APP_DEBUG模式下生成
+if (config("app.debug")) {
+    $errorCodeConfig = config('error_code');
+    (new \teamones\responseCodeMsg\Generate($errorCodeConfig))->run();
+}
+
 Worker::$onMasterReload = function (){
     if (function_exists('opcache_get_status')) {
         if ($status = opcache_get_status()) {
