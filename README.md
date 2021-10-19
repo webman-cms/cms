@@ -43,6 +43,37 @@ Based on webman and Vue
 }
 ```
 
+## get_user_info
 
+- url: /user/get_user_info
+- method: POST
+- Content-Type: application/json
+
+#### body data
+
+```json
+{
+  "user_id": 1
+}
+```
+
+#### response data
+
+```json
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "id": 1,
+    "login_name": "admin",
+    "name": "管理员",
+    "sex": "male",
+    "phone": "18888888888",
+    "email": "admin@cms.com",
+    "last_visit_time": null,
+    "create_time": "2021-10-15 17:00:28"
+  }
+}
+```
 
 
