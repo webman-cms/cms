@@ -55,4 +55,19 @@ class User
     {
 
     }
+
+    /**
+     * 获取指定用户信息
+     * @param Request $request
+     * @return Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getUserInfo(Request $request)
+    {
+        $param = $request->all();
+        $res = $this->userService->getUserInfo($param['user_id']);
+        return json(success_response('', $res));
+    }
 }

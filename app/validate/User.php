@@ -24,4 +24,10 @@ class User extends Validate
         return $this->append('login_name', 'require')
             ->append('password', 'require');
     }
+
+    // GetUserInfo 验证场景定义
+    public function sceneGetUserInfo()
+    {
+        return $this->append('user_id', 'require');
+    }
 }

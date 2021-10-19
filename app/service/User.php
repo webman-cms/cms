@@ -11,6 +11,9 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Validation\Constraint\identifiedBy;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
+
 
 class User
 {
@@ -35,7 +38,7 @@ class User
      * @param string $ip
      * @return string
      */
-    protected function generateToken($userData, $expire, $ip = "127.0.0.1"): string
+    protected function generateToken($userData, $expire, string $ip = "127.0.0.1"): string
     {
         $now = new DateTimeImmutable();
         $token = $this->configuration->builder()
@@ -51,6 +54,57 @@ class User
             ->getToken($this->configuration->signer(), $this->configuration->signingKey());
 
         return $token->toString();
+    }
+
+    /**
+     * 属性token
+     * @param string $refreshToken
+     * @return array
+     */
+    public function refreshToken(string $refreshToken): array
+    {
+        return [];
+    }
+
+    /**
+     * 验证token
+     * @param string $accessToken
+     * @param string $clientIp
+     * @throws \exception
+     */
+    public function verifyToken(string $accessToken, string $clientIp): void
+    {
+        try {
+            $token = $this->configuration->parser()->parse($accessToken);
+
+            $domain = new IssuedBy($this->jwtConfig['domain']);
+            $this->configuration->setValidationConstraints($domain);
+
+            $sign = new identifiedBy($this->jwtConfig['sign']);
+            $this->configuration->setValidationConstraints($sign);
+
+            if (!$this->configuration->validator()->validate($token, ...$this->configuration->validationConstraints())) {
+                throw new \Exception('Wrong token.', ErrorCode::WrongToken);
+            }
+
+            //验证是否已经过期 获取 session已经过期
+            $now = new DateTimeImmutable();
+            if ($token->isExpired($now)) {
+                throw new \Exception('Expire token.', ErrorCode::ExpireToken);
+            }
+
+            // 客户端ip不相等
+            if ($token->claims()->get('ip') !== $clientIp) {
+                throw new \Exception('Client ip not equal.', ErrorCode::ClientIpNotEqual);
+            }
+        } catch (\Throwable $e) {
+            var_dump($e->getMessage());
+            if ($e->getCode() === ErrorCode::ExpireToken) {
+                throw_http_exception($e->getMessage(), $e->getCode());
+            } else {
+                throw_http_exception('Invalid Token.', ErrorCode::InvalidToken);
+            }
+        }
     }
 
     /**
@@ -87,10 +141,21 @@ class User
      * 获取用户信息
      * @param int $userId
      * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public function getUserInfo(int $userId): array
     {
-        return [];
+        $userData = UserModel::field('id,login_name,name,sex,phone,email,last_visit_time,create_time')
+            ->where('id', '=', $userId)
+            ->find();
+
+        if (empty($userData)) {
+            throw_http_exception('User does not exist.', ErrorCode::UserNotExist);
+        }
+
+        return $userData->toArray();
     }
 
     /**
@@ -104,24 +169,24 @@ class User
      */
     private function checkUserPassword(string $loginName, string $password): array
     {
-        $exitUserData = UserModel::field('id,login_name,name,sex,phone,email,password')
+        $existUserData = UserModel::field('id,login_name,name,sex,phone,email,password')
             ->where('login_name', '=', $loginName)
-            ->find()
-            ->toArray();
+            ->find();
 
-        if (empty($exitUserData)) {
+        if (empty($existUserData)) {
             // 用户不存在
             throw_http_exception('Login name or password error.', ErrorCode::LoginNameOrPasswordError);
         }
 
-        if (!password_verify($password, $exitUserData['password'])) {
+        $existUserData = $existUserData->toArray();
+        if (!password_verify($password, $existUserData['password'])) {
             throw_http_exception('Login name or password error.', ErrorCode::LoginNameOrPasswordError);
         }
 
         // 移除密码信息
-        unset($exitUserData['password']);
+        unset($existUserData['password']);
 
-        return $exitUserData;
+        return $existUserData;
     }
 
     /**
@@ -152,8 +217,8 @@ class User
         // 生成token信息
         $accessExpires = time() + $this->jwtConfig['expire'];
         $refreshExpires = time() + $this->jwtConfig['refresh_expire'];
-        $accessToken = $this->generateToken($userData, $accessExpires, $clientIp);
-        $refreshToken = $this->generateToken($userData, $refreshExpires, $clientIp);
+        $accessToken = $this->generateToken($userData, $this->jwtConfig['expire'], $clientIp);
+        $refreshToken = $this->generateToken($userData, $this->jwtConfig['refresh_expire'], $clientIp);
 
         return [
             'user_data' => $userData,
@@ -164,25 +229,5 @@ class User
                 'refresh_token_expires' => $refreshExpires,
             ]
         ];
-    }
-
-    /**
-     * 属性token
-     * @param string $refreshToken
-     * @return array
-     */
-    public function refreshToken(string $refreshToken): array
-    {
-        return [];
-    }
-
-    /**
-     * 验证token
-     * @param string $accessToken
-     * @return bool
-     */
-    public function verifyToken(string $accessToken): bool
-    {
-        return true;
     }
 }
