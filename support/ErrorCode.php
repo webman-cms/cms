@@ -15,4 +15,8 @@ class ErrorCode
     const WrongToken = -20110006;
     const ClientIpNotEqual = -20110007;
     const TokenRecordNotFound = -20110008;
+    const ModelAddUserError = -20110009;
+    const NoInfoToModify = -20110010;
+    const OnlyAdminPasswordCanBeModified = -20110011;
+    const AdminAccountCannotBeDeleted = -20110012;
 }

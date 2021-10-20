@@ -10,10 +10,8 @@ declare (strict_types=1);
 
 namespace app\validate;
 
-use think\Validate;
-
 // 文件名与控制器名称一致
-class Post extends Validate
+class Post extends BaseValidate
 {
     //验证规则
     protected $rule = [];

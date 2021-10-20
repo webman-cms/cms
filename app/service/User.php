@@ -57,6 +57,20 @@ class User
     }
 
     /**
+     * 判断用户是否存在
+     * @param int $userId
+     * @throws \exception
+     */
+    protected function checkUserExist(int $userId): void
+    {
+        $existId = UserModel::where('id', '=', $userId)->value('id');
+
+        if (empty($existId)) {
+            throw_http_exception('User does not exist.', ErrorCode::UserNotExist);
+        }
+    }
+
+    /**
      * 验证token
      * @param string $tokenString
      * @param string $field
@@ -110,38 +124,75 @@ class User
      */
     public function addUser(array $userData): array
     {
+        try {
+            // 验证数据
+            validate(\app\validate\User::class)
+                ->scene('ModelAddUser')
+                ->check($userData);
+
+            // 增加数据
+            $user = new UserModel();
+            foreach ($userData as $key => $value) {
+                $user->$key = $value;
+            }
+
+            $user->save();
+            $addUserData = $user->toArray();
+
+            // 密码不返回
+            unset($addUserData['password']);
+
+            return $addUserData;
+        } catch (\Throwable $e) {
+            // 输出错误信息
+            throw_http_exception($e->getMessage(), ErrorCode::ModelAddUserError);
+        }
         return [];
     }
 
     /**
      * 修改用户信息（包含密码修改）
-     * @param int $userId
      * @param array $userData
      * @return array
      */
-    public function modifyUser(int $userId, array $userData): array
+    public function modifyUser(array $userData): array
     {
-        $user = new UserModel();
-        $user->id = $userId;
+        // 检查用户是否存在
+        $this->checkUserExist($userData['id']);
 
+        $user = new UserModel();
         foreach ($userData as $key => $value) {
             $user->$key = $value;
         }
 
         $user->exists(true)->save();
+        $addUserData = $user->toArray();
 
-        return $user->toArray();
+        // 密码不返回
+        unset($addUserData['password']);
+
+        return $addUserData;
     }
 
     /**
      * 删除用户
      * @param int $userId
-     * @return int
+     * @return array
+     * @throws \exception
      */
-    public function deleteUser(int $userId): int
+    public function deleteUser(int $userId): array
     {
         //  user_id = 1 超级管理员账户不能删除
-        return 0;
+        if ($userId === 1) {
+            throw_http_exception('The administrator account cannot be deleted.', ErrorCode::AdminAccountCannotBeDeleted);
+        }
+
+        // 检查用户是否存在
+        $this->checkUserExist($userId);
+
+        UserModel::where('id', '=', $userId)->delete();
+
+        return ['id' => $userId];
     }
 
     /**
@@ -211,7 +262,8 @@ class User
         $refreshToken = $this->generateToken($userData, $this->jwtConfig['refresh_expire'], $clientIp);
 
         // 更新当前用户token信息
-        $this->modifyUser($userData['id'], [
+        $this->modifyUser([
+            'id' => $userData['id'],
             'access_token' => md5($accessToken),
             'access_expires' => $accessExpires,
             'refresh_token' => md5($refreshToken),

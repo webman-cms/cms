@@ -27,6 +27,10 @@ final class CreateUserTable extends AbstractMigration
             ->addColumn('last_visit_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '最后访问时间'])
             ->addColumn('create_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间']);
 
+        //添加索引
+        $table->addIndex(['login_name'], ['unique' => true, 'name' => 'idx_login_name']);
+        $table->addIndex(['phone'], ['unique' => true, 'name' => 'idx_user_phone']);
+
         //执行创建
         $table->create();
     }

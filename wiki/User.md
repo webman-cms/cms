@@ -113,4 +113,101 @@
 }
 ```
 
+## add 添加用户
 
+- url: /user/add
+- method: POST
+- Content-Type: application/json
+- Authorization: Bearer xxxxxxxxx(access_token)
+
+#### body data
+
+```json
+{
+  "login_name": "test",
+  "name": "test",
+  "phone": 18811006666,
+  "password": "test123456"
+}
+```
+
+#### response data
+
+```json
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "login_name": "test",
+    "name": "test",
+    "phone": 18811006666,
+    "sex": "male",
+    "email": "",
+    "create_time": "1970-01-01 08:33:41",
+    "last_visit_time": "1970-01-01 08:33:41",
+    "id": "5"
+  }
+}
+```
+
+## update 更新用户信息
+
+- url: /user/update
+- method: POST
+- Content-Type: application/json
+- Authorization: Bearer xxxxxxxxx(access_token)
+
+#### body data
+
+```json
+{
+  "id": 5,
+  "login_name": "test22",
+  "name": "test",
+  "phone": 18811006666,
+  "password": "test123456"
+}
+```
+
+#### response data
+
+```json
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "id": 5,
+    "login_name": "test22",
+    "name": "test",
+    "phone": 18811006666,
+    "last_visit_time": "1970-01-01 08:33:41"
+  }
+}
+```
+
+## delete 删除用户
+
+- url: /user/delete
+- method: POST
+- Content-Type: application/json
+- Authorization: Bearer xxxxxxxxx(access_token)
+
+#### body data
+
+```json
+{
+  "id": 5
+}
+```
+
+#### response data
+
+```json
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "id" : 5
+  }
+}
+```

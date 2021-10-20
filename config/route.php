@@ -18,3 +18,6 @@ use Webman\Route;
 Route::post('/user/get_token', 'app\controller\User@getToken');
 Route::post('/user/refresh_token', 'app\controller\User@refreshToken');
 Route::post('/user/get_user_info', 'app\controller\User@getUserInfo')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/user/add', 'app\controller\User@addUser')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/user/update', 'app\controller\User@updateUser')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/user/delete', 'app\controller\User@deleteUser')->middleware(\support\middleware\AuthCheck::class);

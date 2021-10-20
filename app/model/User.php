@@ -23,4 +23,14 @@ class User extends Model
      * @var false|string
      */
     protected $updateTime = 'last_visit_time';
+
+    /**
+     * 加密密码字符串
+     * @param $value
+     * @return string
+     */
+    public function setPasswordAttr($value): string
+    {
+        return create_pass($value);
+    }
 }
