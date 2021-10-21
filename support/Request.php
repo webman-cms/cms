@@ -11,6 +11,7 @@
  * @link      http://www.workerman.net/
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace support;
 
 /**
@@ -19,5 +20,6 @@ namespace support;
  */
 class Request extends \Webman\Http\Request
 {
-
+    // 当前用户id
+    public int $currentUserId = 0;
 }

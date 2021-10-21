@@ -27,3 +27,10 @@ Route::post('/options/add', 'app\controller\Options@addOptions')->middleware(\su
 Route::post('/options/update', 'app\controller\Options@updateOptions')->middleware(\support\middleware\AuthCheck::class);
 Route::post('/options/delete', 'app\controller\Options@deleteOptions')->middleware(\support\middleware\AuthCheck::class);
 Route::post('/options/get_by_code', 'app\controller\Options@getOptionsByCode')->middleware(\support\middleware\AuthCheck::class);
+
+# media api
+Route::post('/media/add', 'app\controller\Media@addMedia')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/media/update', 'app\controller\Media@updateMedia')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/media/delete', 'app\controller\Media@deleteMedia')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/media/get_list', 'app\controller\Media@getMediaList')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/media/get_details', 'app\controller\Media@getMediaDetails')->middleware(\support\middleware\AuthCheck::class);

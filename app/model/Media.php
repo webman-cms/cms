@@ -1,4 +1,5 @@
 <?php
+
 namespace app\model;
 
 use support\Model;
@@ -22,4 +23,11 @@ class Media extends Model
      * @var false|string
      */
     protected $updateTime = false;
+
+    // belongsTo user
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by')
+            ->bind(['create_by_name'=>'name']);
+    }
 }

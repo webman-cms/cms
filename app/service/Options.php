@@ -10,8 +10,6 @@ use support\ErrorCode;
 
 class Options
 {
-
-
     /**
      * 检查系统配置字段是否正确
      * @param array $configKey
