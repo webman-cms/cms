@@ -9,12 +9,12 @@
 
 # API 接口文档
 
-- [用户接口](/wiki/User.md)
-- [配置接口](/wiki/Options.md)
-- [轮播图接口](/wiki/Carousel.md)
-- [媒体接口](/wiki/Media.md)
-- [导航接口](/wiki/Navigation.md)
-- [标签接口](/wiki/Tag.md)
-- [文章接口](/wiki/Post.md)
+- [x] [用户接口](/wiki/User.md)
+- [x] [配置接口](/wiki/Options.md)
+- [ ] [轮播图接口](/wiki/Carousel.md)
+- [x] [媒体接口](/wiki/Media.md)
+- [ ] [导航接口](/wiki/Navigation.md)
+- [x] [标签接口](/wiki/Tag.md)
+- [ ] [文章接口](/wiki/Post.md)
 
 # 安装部署
