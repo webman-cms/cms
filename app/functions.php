@@ -1,5 +1,6 @@
 <?php
 
+use support\ErrorCode;
 use think\Validate;
 
 /**
@@ -74,6 +75,30 @@ if (!function_exists('create_pass')) {
             return password_hash($password, PASSWORD_BCRYPT, $options);
         } else {
             return '';
+        }
+    }
+}
+
+if (!function_exists('check_db_exist')) {
+    /**
+     * 判断数据库记录是否存在
+     * @param string $modelName
+     * @param int $id
+     * @throws exception
+     */
+    function check_db_exist(string $modelName, int $id)
+    {
+        if (false !== strpos($modelName, '\\')) {
+            $class = $modelName;
+        } else {
+            $modelName = ucfirst($modelName);
+            $class = "\\app\\model\\{$modelName}";
+        }
+
+        $existId = $class::where('id', '=', $id)->value('id');
+
+        if (empty($existId)) {
+            throw_http_exception('Data record does not exist.', ErrorCode::DbNotExist);
         }
     }
 }

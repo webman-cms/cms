@@ -57,20 +57,6 @@ class User
     }
 
     /**
-     * 判断用户是否存在
-     * @param int $userId
-     * @throws \exception
-     */
-    protected function checkUserExist(int $userId): void
-    {
-        $existId = UserModel::where('id', '=', $userId)->value('id');
-
-        if (empty($existId)) {
-            throw_http_exception('User does not exist.', ErrorCode::UserNotExist);
-        }
-    }
-
-    /**
      * 验证token
      * @param string $tokenString
      * @param string $field
@@ -154,11 +140,12 @@ class User
      * 修改用户信息（包含密码修改）
      * @param array $userData
      * @return array
+     * @throws \exception
      */
     public function modifyUser(array $userData): array
     {
         // 检查用户是否存在
-        $this->checkUserExist($userData['id']);
+        check_db_exist('user', $userData['id']);
 
         $user = new UserModel();
         foreach ($userData as $key => $value) {
@@ -188,7 +175,7 @@ class User
         }
 
         // 检查用户是否存在
-        $this->checkUserExist($userId);
+        check_db_exist('user', $userId);
 
         UserModel::where('id', '=', $userId)->delete();
 
