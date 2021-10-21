@@ -3,6 +3,6 @@ namespace app\model;
 
 use support\Model;
 
-class NavTag extends Model
+class Tag extends Model
 {
 }
