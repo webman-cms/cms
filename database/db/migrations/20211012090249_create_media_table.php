@@ -21,6 +21,9 @@ final class CreateMediaTable extends AbstractMigration
             ->addColumn('created_by', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建者'])
             ->addColumn('create_time', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '创建时间']);
 
+        // 添加索引
+        $table->addIndex(['type'], ['type' => 'normal', 'name' => 'idx_type']);
+
         //执行创建
         $table->create();
     }
