@@ -94,6 +94,9 @@ class User
             if (empty($tokenExist)) {
                 throw new \Exception('Token record not found.', ErrorCode::TokenRecordNotFound);
             }
+
+            // 设置当前用户id
+            request()->currentUserId = (int)$tokenExist;
         } catch (\Throwable $e) {
             if ($e->getCode() === ErrorCode::ExpireToken) {
                 throw_http_exception($e->getMessage(), $e->getCode());
@@ -111,11 +114,6 @@ class User
     public function addUser(array $userData): array
     {
         try {
-            // 验证数据
-            validate(\app\validate\User::class)
-                ->scene('ModelAddUser')
-                ->check($userData);
-
             // 增加数据
             $user = new UserModel();
             foreach ($userData as $key => $value) {
@@ -123,7 +121,7 @@ class User
             }
 
             $user->save();
-            $addUserData = $user->toArray();
+            $addUserData = $user->getData();
 
             // 密码不返回
             unset($addUserData['password']);
@@ -153,7 +151,7 @@ class User
         }
 
         $user->exists(true)->save();
-        $addUserData = $user->toArray();
+        $addUserData = $user->getData();
 
         // 密码不返回
         unset($addUserData['password']);

@@ -38,21 +38,10 @@ class User extends BaseValidate
     // AddUser 验证场景定义
     public function sceneAddUser()
     {
-        return $this->append('login_name', 'require|max:36')
-            ->append('name', 'require|max:128')
-            ->append('phone', 'require|max:20')
-            ->append('password', 'require|max:32') // 限制用户输入密码最大32位
-            ->append('sex', 'in:male,female')
-            ->append('email', 'max:128|email');
-    }
-
-    // AddUser 验证场景定义
-    public function sceneModelAddUser()
-    {
         return $this->append('login_name', 'require|max:36|unique:user')
             ->append('name', 'require|max:128')
             ->append('phone', 'require|max:20|unique:user')
-            ->append('password', 'require|max:32')
+            ->append('password', 'require|max:32') // 限制用户输入密码最大32位
             ->append('sex', 'in:male,female')
             ->append('email', 'max:128|email');
     }
@@ -61,9 +50,9 @@ class User extends BaseValidate
     public function sceneUpdateUser()
     {
         return $this->append('id', 'require')
-            ->append('login_name', 'max:36')
+            ->append('login_name', 'max:36|unique:user')
             ->append('name', 'max:128')
-            ->append('phone', 'max:20')
+            ->append('phone', 'max:20|unique:user')
             ->append('password', 'max:32') // 限制用户输入密码最大32位
             ->append('sex', 'in:male,female')
             ->append('email', 'max:128|email');
