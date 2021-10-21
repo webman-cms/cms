@@ -34,3 +34,9 @@ Route::post('/media/update', 'app\controller\Media@updateMedia')->middleware(\su
 Route::post('/media/delete', 'app\controller\Media@deleteMedia')->middleware(\support\middleware\AuthCheck::class);
 Route::post('/media/get_list', 'app\controller\Media@getMediaList')->middleware(\support\middleware\AuthCheck::class);
 Route::post('/media/get_details', 'app\controller\Media@getMediaDetails')->middleware(\support\middleware\AuthCheck::class);
+
+# tag api
+Route::post('/tag/add', 'app\controller\Tag@addTag')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/tag/update', 'app\controller\Tag@updateTag')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/tag/delete', 'app\controller\Tag@deleteTag')->middleware(\support\middleware\AuthCheck::class);
+Route::post('/tag/get_list', 'app\controller\Tag@getTagList')->middleware(\support\middleware\AuthCheck::class);

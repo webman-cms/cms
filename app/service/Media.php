@@ -41,7 +41,7 @@ class Media
      * @return mixed
      * @throws \exception
      */
-    public function updateMedia($data)
+    public function updateMedia($data): array
     {
         // 检查数据是否存在
         check_db_exist('media', $data['id']);
