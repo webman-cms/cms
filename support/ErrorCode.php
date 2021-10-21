@@ -19,4 +19,8 @@ class ErrorCode
     const NoInfoToModify = -20110010;
     const OnlyAdminPasswordCanBeModified = -20110011;
     const AdminAccountCannotBeDeleted = -20110012;
+    const DbNotExist = -20110013;
+    const ModelAddOptionsError = -20110014;
+    const UnableToDeleteSystemConfig = -20110015;
+    const ConfigParamKeyRequired = -20110016;
 }
