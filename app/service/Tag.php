@@ -57,7 +57,7 @@ class Tag
     }
 
     /**
-     * 删除媒体信息
+     * 删除Tag信息
      * @param $id
      * @return array
      * @throws \exception

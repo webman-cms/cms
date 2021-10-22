@@ -3,6 +3,6 @@ namespace app\model;
 
 use support\Model;
 
-class Carousel extends Model
+class Category extends Model
 {
 }

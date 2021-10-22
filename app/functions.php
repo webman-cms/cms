@@ -98,7 +98,7 @@ if (!function_exists('check_db_exist')) {
         $existId = $class::where('id', '=', $id)->value('id');
 
         if (empty($existId)) {
-            throw_http_exception('Data record does not exist.', ErrorCode::DbNotExist);
+            throw_http_exception("Data id={$id} record does not exist.", ErrorCode::DbNotExist);
         }
     }
 }
