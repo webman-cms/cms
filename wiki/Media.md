@@ -8,6 +8,41 @@
 
 ![image](./images/media_workflow.png)
 
+## get_presigned_put_object_url 获取存储对象预上传地址
+
+- url: /options/get_presigned_put_object_url
+- method: POST
+- Content-Type: application/json
+- Authorization: Bearer xxxxxxxxx(access_token)
+
+#### 参数说明
+
+|字段|说明|
+|---|---|
+|object_name| 上传文件名包含后缀，如果要上传到子文件夹,在文件名前面加上目录路径例如 test/test.jpg|
+|bucket_name| 存储桶名（选填） |
+
+#### body data
+
+```json
+{
+  "bucket_name": "cms",
+  "object_name": "BrickCheap01.jpg"
+}
+```
+
+#### response data
+
+```json
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "url": "http://10.168.30.17:19835/cms/BrickCheap01.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20211022%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211022T062254Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1200&X-Amz-Signature=20a0ab84d64badc6a90582e1ea240e89611545386049fe2059e40e0e976d3c9b"
+  }
+}
+```
+
 ## 参数说明
 
 |字段|说明|

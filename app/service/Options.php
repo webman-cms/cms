@@ -7,6 +7,11 @@ namespace app\service;
 
 use app\model\Options as OptionsModel;
 use support\ErrorCode;
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 class Options
 {
@@ -41,6 +46,7 @@ class Options
     {
         $configKey = [
             'end_point', // 端点，上传url地址
+            'region', // 可用区
             'port', // 端口
             'use_ssl', // bool 是否是 https
             'access_key', // 授权码
@@ -173,5 +179,59 @@ class Options
             return $optionsData['config'];
         }
         return [];
+    }
+
+    /**
+     * 获取存储对象预上传地址，默认20分钟不能超过7天（10080分钟）
+     * @param $objectName
+     * @param string $bucketName
+     * @param int $expiry
+     * @return string[]|void
+     * @throws \exception
+     */
+    public function getPresignedPutObjectUrl($objectName, string $bucketName = '', $expiry = 20)
+    {
+        try {
+            // 获取对象存储配置
+            $mediaServerConfig = $this->getOptionsByCode('media_service');
+
+            if (!empty($mediaServerConfig)) {
+                // 初始化 S3 client.
+                $endPointHttp = $mediaServerConfig['use_ssl'] ? 'https://' : 'http://';
+                $endPointUrl = "{$endPointHttp}{$mediaServerConfig['end_point']}:{$mediaServerConfig['port']}";
+                $s3Client = new S3Client([
+                    'version' => 'latest',
+                    'endpoint' => $endPointUrl,
+                    'use_path_style_endpoint' => true,
+                    'region' => $mediaServerConfig['region'],
+                    'credentials' => [
+                        'key' => $mediaServerConfig['access_key'],
+                        'secret' => $mediaServerConfig['secret_key'],
+                    ],
+                ]);
+
+                // 用户为指定存储桶则用默认配置地址
+                $bucket = !empty($bucketName) ? $bucketName : $mediaServerConfig['bucket'];
+                $cmd = $s3Client->getCommand('putObject', [
+                    'Bucket' => $bucket,
+                    'Key' => $objectName
+                ]);
+
+                if ($expiry > 10080) {
+                    throw_http_exception('The expiration time cannot be greater than 7 days.', ErrorCode::ExpiryCanNotGreaterThan7days);
+                }
+
+                $request = $s3Client->createPresignedRequest($cmd, "+{$expiry} minutes");
+
+                // 返回预上传地址
+                return [
+                    "url" => (string)$request->getUri()
+                ];
+            } else {
+                throw_http_exception('The object storage configuration does not exist.', ErrorCode::ObjectStorageConfigNotExist);
+            }
+        } catch (\Throwable $e) {
+            throw_http_exception($e->getMessage(), ErrorCode::GetPresignedPutObjectUrlError);
+        }
     }
 }

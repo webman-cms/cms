@@ -15,6 +15,7 @@
 - [x] [媒体接口](/wiki/Media.md)
 - [ ] [导航接口](/wiki/Navigation.md)
 - [x] [标签接口](/wiki/Tag.md)
+- [ ] [链接接口](/wiki/Link.md)
 - [ ] [文章接口](/wiki/Post.md)
 
 # 安装部署

@@ -23,4 +23,7 @@ class ErrorCode
     const ModelAddOptionsError = -20110014;
     const UnableToDeleteSystemConfig = -20110015;
     const ConfigParamKeyRequired = -20110016;
+    const ExpiryCanNotGreaterThan7days = -20110017;
+    const GetPresignedPutObjectUrlError = -20110018;
+    const ObjectStorageConfigNotExist = -20110019;
 }

@@ -45,4 +45,10 @@ class Options extends BaseValidate
     {
         return $this->append('code', 'require');
     }
+
+    // GetPresignedPutObjectUrl 验证场景定义
+    public function sceneGetPresignedPutObjectUrl()
+    {
+        return $this->append('object_name', 'require');
+    }
 }

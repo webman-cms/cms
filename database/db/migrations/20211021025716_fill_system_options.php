@@ -39,6 +39,7 @@ final class FillSystemOptions extends AbstractMigration
                 'type' => 'system',
                 'config' => json_encode([
                     'end_point' => '127.0.0.1', // 端点，上传url地址
+                    'region' => 'us-east-1', // 可用区
                     'port' => 9000, // 端口
                     'use_ssl' => false, // bool 是否是 https
                     'access_key' => 'xxx', // 授权码

@@ -14,7 +14,7 @@
 
 return [
     '' => [
-        support\middleware\AccessControlTest::class,
+        support\middleware\AccessCors::class,
         support\middleware\RequestValidate::class,
     ],
     'auth'=>[

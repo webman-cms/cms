@@ -87,4 +87,21 @@ class Options
         $res = $this->optionsService->getOptionsByCode($param['code']);
         return json(success_response('', $res));
     }
+
+    /**
+     * 获取存储对象预上传地址，默认20分钟不能超过7天（10080分钟）
+     * @param Request $request
+     * @return Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getPresignedPutObjectUrl(Request $request): Response
+    {
+        $param = $request->all();
+        $expiry = $param['expiry'] ?? '20';
+        $bucket = $param['bucket_name'] ?? '';
+        $res = $this->optionsService->getPresignedPutObjectUrl($param['object_name'], $bucket, $expiry);
+        return json(success_response('', $res));
+    }
 }
