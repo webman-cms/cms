@@ -20,7 +20,7 @@ class Options extends BaseValidate
     public function sceneAddOptions()
     {
         return $this->append('name', 'require|max:128')
-            ->append('code', 'require|max:128|unique:options')
+            ->append('code', 'require|alphaDash|max:128|unique:options')
             ->append('config', 'require|array')
             ->append('type', 'eq:custom');
     }
@@ -30,7 +30,7 @@ class Options extends BaseValidate
     {
         return $this->append('id', 'require')
             ->append('name', 'max:128')
-            ->append('code', 'max:128|unique:options')
+            ->append('code', 'alphaDash|max:128|unique:options')
             ->append('config', 'array');
     }
 
