@@ -14,12 +14,18 @@ class Category
     /**
      * 获取指定父级下面所有子级id
      * @param $ids
-     * @param int $rootId
+     * @param array $rootId
      */
-    protected function getAllChildById(&$ids, int $rootId)
+    protected function getAllChildById(&$ids, array $rootId)
     {
         if ($rootId > 0) {
-
+            $childParentIdData = CategoryModel::field('id')->where('parent_id', 'in', $rootId)->select();
+            $childParentIdArray = $childParentIdData->toArray();
+            if (!empty($childParentIdArray)) {
+                $childParentIds = array_column($childParentIdArray, 'id');
+                $ids = array_merge($ids, $childParentIds);
+                return $this->getAllChildById($ids, $childParentIds);
+            }
         }
         return $ids;
     }
@@ -91,9 +97,11 @@ class Category
         check_db_exist('category', $id);
 
         // 如果是父级则连同子集一起删除
+        $ids = [$id];
+        $this->getAllChildById($ids, [$id]);
 
-
-        CategoryModel::where('id', '=', $id)->delete();
+        // 批量删除子集分类
+        CategoryModel::where('id', 'in', $ids)->delete();
 
         return ['id' => $id];
     }
