@@ -58,7 +58,7 @@ class Nav
     }
 
     /**
-     * 删除导航排序
+     * 更新导航排序
      * @param Request $request
      * @return Response
      * @throws \exception
@@ -66,7 +66,7 @@ class Nav
     public function updateNavIndexSort(Request $request): Response
     {
         $param = $request->all();
-        $res = $this->navService->updateNavIndexSort($param);
+        $res = $this->navService->updateNavIndexSort($param['data']);
         return json(success_response('', $res));
     }
 
@@ -76,10 +76,12 @@ class Nav
      * @return Response
      * @throws \exception
      */
-    public function getNavTree(Request $request): Response
+    public function getNavTreeList(Request $request): Response
     {
         $param = $request->all();
-        $res = $this->navService->getNavTree($param);
+        $filterName = $param['filter']['name'] ?? '';
+
+        $res = $this->navService->getNavTreeList($filterName, $param['page_number']);
         return json(success_response('', $res));
     }
 }

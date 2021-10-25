@@ -59,6 +59,15 @@ Route::group('/category/', function () {
     Route::add(['POST', 'OPTIONS'], 'get_tree_list', 'app\controller\Category@getCategoryTreeList')->middleware(\support\middleware\AuthCheck::class);
 });
 
+# navigation api
+Route::group('/nav/', function () {
+    Route::add(['POST', 'OPTIONS'], 'add', 'app\controller\Nav@addNav')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'update', 'app\controller\Nav@updateNav')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'delete', 'app\controller\Nav@deleteNav')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'get_tree_list', 'app\controller\Nav@getNavTreeList')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'update_index_sort', 'app\controller\Nav@updateNavIndexSort')->middleware(\support\middleware\AuthCheck::class);
+});
+
 // 回退路由，设置默认的路由兜底
 Route::fallback(function (\support\Request $request) {
     return new Response(404, []);

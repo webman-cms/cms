@@ -91,4 +91,23 @@ class BaseValidate extends Validate
 
         return true;
     }
+
+    /**
+     * 验证某个字段不等于某个值的时候必须
+     * @access public
+     * @param  mixed $value  字段值
+     * @param  mixed $rule  验证规则
+     * @param  array $data  数据
+     * @return bool
+     */
+    public function requireIfNot($value, $rule, array $data = []): bool
+    {
+        list($field, $val) = explode(',', $rule);
+
+        if ($this->getDataValue($data, $field) != $val) {
+            return !empty($value) || '0' == $value;
+        }
+
+        return true;
+    }
 }

@@ -26,4 +26,5 @@ class ErrorCode
     const ExpiryCanNotGreaterThan7days = -20110017;
     const GetPresignedPutObjectUrlError = -20110018;
     const ObjectStorageConfigNotExist = -20110019;
+    const UpdateNavIndexSortError = -20110020;
 }
