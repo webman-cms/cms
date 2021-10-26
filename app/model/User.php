@@ -24,6 +24,13 @@ class User extends Model
      */
     protected $updateTime = 'last_visit_time';
 
+
+    // belongsTo media
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'avatar_media_id');
+    }
+
     /**
      * 加密密码字符串
      * @param $value

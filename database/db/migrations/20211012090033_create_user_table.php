@@ -14,6 +14,7 @@ final class CreateUserTable extends AbstractMigration
 
         $table->addColumn('id', 'integer', ['identity' => true, 'signed' => false, 'limit' => 11, 'comment' => '主键ID'])
             ->addColumn('login_name', 'char', ['default' => '', 'limit' => 36, 'comment' => '登录名'])
+            ->addColumn('avatar_media_id', 'integer', ['signed' => false, 'default' => 0, 'limit' => 11, 'comment' => '用户头像所属媒体ID'])
             ->addColumn('name', 'string', ['default' => '', 'limit' => 128, 'comment' => '用户姓名'])
             ->addColumn('sex', 'enum', ['values' => 'male,female', 'default' => 'male', 'comment' => '性别（男 male、女female）'])
             ->addColumn('phone', 'char', ['default' => '', 'limit' => 20, 'comment' => '手机号码'])

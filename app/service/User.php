@@ -190,15 +190,21 @@ class User
      */
     public function getUserInfo(int $userId): array
     {
-        $userData = UserModel::field('id,login_name,name,sex,phone,email,last_visit_time,create_time')
-            ->where('id', '=', $userId)
-            ->find();
+        $user = new UserModel();
+        $userData = $user->with('media')
+            ->find($userId);
 
         if (empty($userData)) {
             throw_http_exception('User does not exist.', ErrorCode::UserNotExist);
         }
-
-        return $userData->toArray();
+        $userData = $userData->toArray();
+        $userShowData = [];
+        foreach ($userData as $fields => $item) {
+            if (in_array($fields, ['id', 'login_name', 'name', 'sex', 'phone', 'email', 'last_visit_time', 'create_time', 'media'])) {
+                $userShowData[$fields] = $item;
+            }
+        }
+        return $userShowData;
     }
 
     /**

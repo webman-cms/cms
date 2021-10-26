@@ -90,7 +90,7 @@
 
 ```json
 {
-  "user_id": 1
+  "id": 1
 }
 ```
 
@@ -101,14 +101,23 @@
   "code": 0,
   "msg": "",
   "data": {
-    "id": 1,
-    "login_name": "admin",
-    "name": "管理员",
+    "id": 2,
+    "login_name": "test22",
+    "name": "test222",
     "sex": "male",
-    "phone": "18888888888",
-    "email": "admin@cms.com",
-    "last_visit_time": null,
-    "create_time": "2021-10-15 17:00:28"
+    "phone": "18811006677",
+    "email": "",
+    "last_visit_time": "2021-10-26 15:24:41",
+    "create_time": "2021-10-26 15:24:41",
+    "media": {
+      "id": 1,
+      "type": "image",
+      "path": "cms/test.jpg",
+      "size": "123456.2",
+      "description": "这是一个图片描述",
+      "created_by": 1,
+      "create_time": "2021-10-26 15:25:33"
+    }
   }
 }
 ```

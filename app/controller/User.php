@@ -63,7 +63,7 @@ class User
     public function getUserInfo(Request $request): Response
     {
         $param = $request->all();
-        $res = $this->userService->getUserInfo($param['user_id']);
+        $res = $this->userService->getUserInfo($param['id']);
         return json(success_response('', $res));
     }
 

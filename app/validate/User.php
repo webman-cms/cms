@@ -32,7 +32,7 @@ class User extends BaseValidate
     // GetUserInfo 验证场景定义
     public function sceneGetUserInfo()
     {
-        return $this->append('user_id', 'require');
+        return $this->append('id', 'require');
     }
 
     // AddUser 验证场景定义
@@ -43,7 +43,8 @@ class User extends BaseValidate
             ->append('phone', 'require|max:20|unique:user')
             ->append('password', 'require|max:32') // 限制用户输入密码最大32位
             ->append('sex', 'in:male,female')
-            ->append('email', 'max:128|email');
+            ->append('email', 'max:128|email')
+            ->append('avatar_media_id', 'integer');
     }
 
     // UpdateUser 验证场景定义
@@ -55,7 +56,8 @@ class User extends BaseValidate
             ->append('phone', 'max:20|unique:user')
             ->append('password', 'max:32') // 限制用户输入密码最大32位
             ->append('sex', 'in:male,female')
-            ->append('email', 'max:128|email');
+            ->append('email', 'max:128|email')
+            ->append('avatar_media_id', 'integer');
     }
 
     // UpdateUser 验证场景定义
