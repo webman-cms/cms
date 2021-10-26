@@ -68,6 +68,15 @@ Route::group('/nav/', function () {
     Route::add(['POST', 'OPTIONS'], 'update_index_sort', 'app\controller\Nav@updateNavIndexSort')->middleware(\support\middleware\AuthCheck::class);
 });
 
+# post api
+Route::group('/post/', function () {
+    Route::add(['POST', 'OPTIONS'], 'add', 'app\controller\Post@addPost')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'update', 'app\controller\Post@updatePost')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'delete', 'app\controller\Post@deletePost')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'find_one', 'app\controller\Post@findOnePost')->middleware(\support\middleware\AuthCheck::class);
+    Route::add(['POST', 'OPTIONS'], 'get_list', 'app\controller\Post@getPostList')->middleware(\support\middleware\AuthCheck::class);
+});
+
 // 回退路由，设置默认的路由兜底
 Route::fallback(function (\support\Request $request) {
     return new Response(404, []);

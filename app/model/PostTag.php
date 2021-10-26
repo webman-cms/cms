@@ -1,8 +1,8 @@
 <?php
 namespace app\model;
 
-use support\Model;
+use support\PivotModel;
 
-class PostTag extends Model
+class PostTag extends PivotModel
 {
 }

@@ -12,9 +12,9 @@
 - [x] [用户接口](/wiki/User.md)
 - [x] [配置接口](/wiki/Options.md)
 - [x] [媒体接口](/wiki/Media.md)
-- [x] [导航接口](/wiki/Navigation.md)
 - [x] [标签接口](/wiki/Tag.md)
 - [x] [分类接口](/wiki/Category.md)
-- [ ] [文章接口](/wiki/Post.md)
+- [x] [导航接口](/wiki/Navigation.md)
+- [x] [文章接口](/wiki/Post.md)
 
 # 安装部署

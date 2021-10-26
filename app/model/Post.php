@@ -1,4 +1,5 @@
 <?php
+
 namespace app\model;
 
 use support\Model;
@@ -22,4 +23,29 @@ class Post extends Model
      * @var false|string
      */
     protected $updateTime = 'update_time';
+
+    // belongsTo user
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id')
+            ->bind(['user_name' => 'name']);
+    }
+
+    // belongsTo media
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'thumb_media_id');
+    }
+
+    // belongsTo category
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    // 多对多关联 belongsToMany
+    public function tag()
+    {
+        return $this->belongsToMany(Tag::class, PostTag::class);
+    }
 }

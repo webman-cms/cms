@@ -27,4 +27,6 @@ class ErrorCode
     const GetPresignedPutObjectUrlError = -20110018;
     const ObjectStorageConfigNotExist = -20110019;
     const UpdateNavIndexSortError = -20110020;
+    const TagNameAttNotExist = -20110021;
+    const ModelUpdateOptionsError = -20110022;
 }
